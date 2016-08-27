@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<iterator>
 #include<vector>
+#include<cstdlib>
 
 #include<sys/wait.h>
 #include<unistd.h>
@@ -12,8 +13,10 @@ using namespace std;
 
 int main() {
 
-	string PATH("/bin:/usr/bin"); 
-		
+	string PATH = getenv("PATH"); 
+	cout << PATH << endl;
+
+
 	// main loop
 	while(true) {
 		
@@ -41,15 +44,13 @@ int main() {
 		if(pid < 0) { // failed to fork
 			cerr << "Failed to fork!" << endl;
 		}
-		else if(pid > 0) { // parent
+		else if(pid > 0) { // parent pshell
 			int status;
-			cout << "Parent: forked OK. Waiting for child." << endl;
-			waitpid(pid, &status, 0);
-			cout << "Parent: Child done. Status = " << status << ". Continuing." << endl;
+			waitpid(pid, &status, 0); // wait on the child process to finish
 		}
-		else { // child
-			cout << "Child: Hello! I am here. pid=" << getpid() << endl;
-			exit(500);
+		else { // child process
+			//execve()		
+			exit(-1); // exec never returns, so this gets called only if error happens
 		}
 
 	}
