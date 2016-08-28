@@ -5,11 +5,18 @@
 #include<iterator>
 #include<vector>
 #include<cstdlib>
+#include<numeric>
 
 #include<sys/wait.h>
 #include<unistd.h>
 
 using namespace std;
+
+template<class T>
+void print_vector(vector<T> v) {
+	for(int i = 0; i < v.size(); ++i)
+		cout << i << ": " << v[i] << endl;
+}
 
 
 int main() {
@@ -56,8 +63,12 @@ int main() {
 				ctokens.push_back(const_cast<char*>(t.c_str()));
 			ctokens.push_back(static_cast<char*>(NULL));	
 				
+			
+			// print_vector(tokens);
+
+
 			execvp(ctokens[0], &ctokens[0]);
-			cout << "execvp failed!" << endl;
+			perror("error");
 			exit(-1); // exec never returns, so this gets called only if error happens
 		}
 
