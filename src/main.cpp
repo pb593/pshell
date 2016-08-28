@@ -33,11 +33,6 @@ int main() {
 			 istream_iterator<string>(),
 			 back_inserter(tokens)); // tokenize
 		
-		// prepare char *const[] to pass to exec
-		vector<char*> ctokens;
-		for(auto t: tokens)
-			ctokens.push_back(const_cast<char*>(t.c_str()));
-		ctokens.push_back(static_cast<char*>(NULL));	
 
 		// Expansion
 		// TODO: aliases, wildcards
@@ -54,6 +49,13 @@ int main() {
 			waitpid(pid, &status, 0); // wait on the child process to finish
 		}
 		else { // child process	
+			
+			// prepare char *const[] to pass to exec
+			vector<char*> ctokens;
+			for(auto t: tokens)
+				ctokens.push_back(const_cast<char*>(t.c_str()));
+			ctokens.push_back(static_cast<char*>(NULL));	
+				
 			execvp(ctokens[0], &ctokens[0]);
 			cout << "execvp failed!" << endl;
 			exit(-1); // exec never returns, so this gets called only if error happens
