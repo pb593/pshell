@@ -38,20 +38,6 @@ int main() {
 		for(auto t: tokens)
 			ctokens.push_back(const_cast<char*>(t.c_str()));
 		ctokens.push_back(static_cast<char*>(NULL));	
-		/*
-		unsigned nargs = tokens.size();
-		char** args = new char*[nargs+1];
-		for(int i = 0; i < tokens.size(); ++i)
-			args[i] = (char*)&tokens[i]; // assign the pointers
-		args[nargs] = (char*)NULL;
-	
-
-		for(int i = 0; i < nargs; ++i)
-			cout << i << ": " << args[i] << endl;
-
-		if(args[nargs]==NULL)
-				cout << "YESSSS!" << endl;
-		*/
 
 		// Expansion
 		// TODO: aliases, wildcards
@@ -66,7 +52,6 @@ int main() {
 		else if(pid > 0) { // parent pshell
 			int status;
 			waitpid(pid, &status, 0); // wait on the child process to finish
-			// delete[] args; // delete the memory allocated
 		}
 		else { // child process	
 			execvp(ctokens[0], &ctokens[0]);
