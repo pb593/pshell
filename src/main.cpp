@@ -44,7 +44,12 @@ int main() {
 		// Expansion
 		// TODO: aliases, wildcards
 		
-
+		// Built-in commands
+		if(!tokens[0].compare("exit")) { // EXIT commands
+			int status = 0;
+			// add custom exit status later
+			exit(status);
+		}
 		// Fork a new process and wait on it
 		// pid_t parent = getpid();
 		pid_t pid = fork();
@@ -65,11 +70,11 @@ int main() {
 				
 			
 			// print_vector(tokens);
-
+			
 
 			execvp(ctokens[0], &ctokens[0]);
-			perror("error");
-			exit(-1); // exec never returns, so this gets called only if error happens
+			perror("error"); // exec never returns, so this gets called only if error happens
+			exit(-1); 
 		}
 
 	}
